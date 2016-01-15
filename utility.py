@@ -67,12 +67,15 @@ def loadData():
   Output  : Array with each line as a dict
   """
   data = []
+  sample_ids = []
 
   # Opens the data directory and reads each individual file
   for filename in os.listdir("./Data"):
-    with open("./Data/"+filename,'r') as tsv:
-      reader = csv.DictReader(tsv, dialect="excel-tab")
-      for line in reader:
-        data.append(line)
+      with open("./Data/"+filename,'r') as tsv:
+        sample_id = filename.split('.')[0]
+        sample_ids.append(sample_id)
+        reader = csv.DictReader(tsv, dialect="excel-tab")
+        for line in reader:
+            data.append(line)
 
-  return data
+  return data, sample_ids

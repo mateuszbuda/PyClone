@@ -18,11 +18,11 @@ def run_pyclone_binomial_analysis(data, sample_ids, tumour_content, trace_dir, n
 
     sample_cluster_densities = OrderedDict()
 
-    alpha = 1
-    beta = 1
+    base_measure_alpha = 1
+    base_measure_beta = 1
 
     for sample_id in sample_ids:
-        sample_base_measures[sample_id] = BetaBaseMeasure(alpha, beta)
+        sample_base_measures[sample_id] = BetaBaseMeasure(base_measure_alpha, base_measure_beta)
 
         sample_cluster_densities[sample_id] = PyCloneBinomialDensity(PyCloneBinomialParameter(tumour_content[sample_id]))
 
