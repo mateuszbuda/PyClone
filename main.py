@@ -7,26 +7,33 @@
 '''
 import priors
 import utility
-import pyclone_binomial
+# import pyclone_binomial
 
 
 
 # Load data
-data, sample_ids = utility.loadData()
+raw_data = utility.loadData()
+
 
 # Define prior < AB | BB | NoZygosity | TCN | PCN >
 prior = "TCN"
 
+
 # Get possible states for each mutation
-mutations = priors.getMutations(prior, data)
+data = {}
+for sample in raw_data:
+  mutations = priors.getMutations(prior, raw_data[sample])
+  data[sample] = mutations
+  
 
 #data, sample_ids, tumour_content, trace_dir, num_iters, alpha, alpha_priors
 
 error_rate = 0.001
 
 tumour_content = {}
-for id in sample_ids:
-	tumour_content[id] = 1.0
+for id in data:
+  tumour_content[id] = 1.0
+
 
 trace_dir = 'trace'
 
@@ -39,5 +46,5 @@ alpha_priors = {
 	'rate': 0.001
 }
 
-pyclone_binomial.run_pyclone_binomial_analysis(mutations, sample_ids, tumour_content, trace_dir, num_iters, alpha, alpha_priors)
+#pyclone_binomial.run_pyclone_binomial_analysis(mutations, sample_ids, tumour_content, trace_dir, num_iters, alpha, alpha_priors)
 
