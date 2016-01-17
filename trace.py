@@ -7,8 +7,7 @@ import bz2
 import csv
 import os
 
-# from pyclone.utils import make_directory
-
+from utility import make_directory
 
 
 class DiskTrace(object):
