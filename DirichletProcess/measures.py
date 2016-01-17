@@ -20,23 +20,28 @@ class BaseMeasure(object):
         '''
         raise NotImplemented
 
+
     def random(self):
         '''
         Return a random sample from the base measure.
         '''
         raise NotImplemented
 
+
 class BetaBaseMeasure:
     def __init__(self, a, b):
         self.params = BetaParameter(a, b)
 
+
     def log_p(self, data):
         return log_beta_pdf(data.x, self.params.a, self.params.b)
+
 
     def random(self):
         x = betavariate(self.params.a, self.params.b)
 
         return BetaData(x)
+
 
 class MultiSampleBaseMeasure(BaseMeasure):
     def __init__(self, base_measures):

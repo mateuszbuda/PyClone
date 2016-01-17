@@ -5,6 +5,8 @@
   Date last modified  : 11/1/2016
   Python Version      : 3.4
 '''
+__author__ = "fredrik"
+
 import mutation
 
 

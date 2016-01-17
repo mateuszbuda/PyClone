@@ -8,10 +8,7 @@ This project consists of a reimplementation of the PyClone analysis tool present
 #### Authors
 * Fredrik Dahlin
 * Mateusz Buda
-* Ezeddin Al Hakim
 * Victor Reyes
-* Sophie Eskesen
-* Joel Berhane
 
 
 ## DATA

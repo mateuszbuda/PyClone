@@ -7,7 +7,8 @@ import bz2
 import csv
 import os
 
-from pyclone.utils import make_directory
+from utility import make_directory
+
 
 class DiskTrace(object):
     def __init__(self, trace_dir, sample_ids, mutation_ids, attribute_map, precision=False):
@@ -21,6 +22,7 @@ class DiskTrace(object):
         
         self.update_precision = precision 
     
+
     def close(self):
         self.alpha_writer.close()
         
@@ -32,6 +34,7 @@ class DiskTrace(object):
         if self.update_precision:
             self.precision_writer.close()
     
+
     def open(self):
         make_directory(self.trace_dir)
         
@@ -49,6 +52,7 @@ class DiskTrace(object):
         if self.update_precision:
             self.precision_writer = PrecisionWriter(self.trace_dir)
     
+
     def update(self, state):
         self.alpha_writer.write_row([state['alpha'], ])
         
@@ -67,6 +71,8 @@ class DiskTrace(object):
         if self.update_precision:
             self.precision_writer.write_row([state['global_params'].x])        
 
+
+
 class ConcentrationParameterWriter(object):
     def __init__(self, trace_dir):
         self.file_name = os.path.join(trace_dir, 'alpha.tsv.bz2')
@@ -77,11 +83,15 @@ class ConcentrationParameterWriter(object):
         
         self.param_id = 'alpha'
     
+    
     def close(self):
         self.file_handle.close()
     
+   
     def write_row(self, row):
         self.writer.writerow(row)
+
+
 
 class CellularFrequenciesWriter(object):
     def __init__(self, trace_dir, sample_id, mutation_ids):
@@ -95,11 +105,15 @@ class CellularFrequenciesWriter(object):
         
         self.param_id = (sample_id, 'cellular_frequencies')
     
+    
     def close(self):
         self.file_handle.close()
     
+    
     def write_row(self, row):
         self.writer.writerow(row)
+
+
 
 class LabelsWriter(object):
     def __init__(self, trace_dir, mutation_ids):
@@ -113,11 +127,15 @@ class LabelsWriter(object):
         
         self.param_id = 'labels'
     
+    
     def close(self):
         self.file_handle.close()
     
+    
     def write_row(self, row):
         self.writer.writerow(row)
+
+
 
 class PrecisionWriter(object):
     def __init__(self, trace_dir):
@@ -129,8 +147,10 @@ class PrecisionWriter(object):
         
         self.param_id = 'precision'
     
+    
     def close(self):
         self.file_handle.close()
+    
     
     def write_row(self, row):
         self.writer.writerow(row)

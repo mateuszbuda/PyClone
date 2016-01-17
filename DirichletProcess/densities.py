@@ -17,6 +17,30 @@ def log_beta(a, b):
 
     return lgamma(a) + lgamma(b) - lgamma(a + b)
 
+def log_binomial_pdf(x, n, p):
+    if p == 0:
+        if x == 0:
+            return 0
+        else:
+            return float('-inf')
+
+    if p == 1:
+        if x == n:
+            return 0
+        else:
+            return float('-inf')
+
+    return log_binomial_coefficient(n, x) + x * log(p) + (n - x) * log(1 - p)
+
+
+def log_binomial_coefficient(n, x):
+    return log_factorial(n) - log_factorial(x) - log_factorial(n - x)
+
+
+def log_factorial(n):
+    return lgamma(n + 1)
+
+
 class Density(object):
     def __init__(self, params=None):
         self.params = params
@@ -67,6 +91,24 @@ class PyCloneBinomialDensity(Density):
             ll.append(temp)
 
         return log_sum_exp(ll)
+
+    def _log_binomial_likelihood(self, b, d, cn_n, cn_r, cn_v, mu_n, mu_r, mu_v, cellular_frequency):
+        f = cellular_frequency
+        t = self.params.tumour_content
+
+        p_n = (1 - t) * cn_n
+        p_r = t * (1 - f) * cn_r
+        p_v = t * f * cn_v
+
+        norm_const = p_n + p_r + p_v
+
+        p_n = p_n / norm_const
+        p_r = p_r / norm_const
+        p_v = p_v / norm_const
+
+        mu = p_n * mu_n + p_r * mu_r + p_v * mu_v
+
+        return log_binomial_pdf(b, d, mu)
 
 class MultiSampleDensity(Density):
     '''
